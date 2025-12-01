@@ -11,18 +11,12 @@ def obtener_data_comentarios(url):
         print("Solicitud correcta, procesando data...")
         comentarios = respuesta.json()
         for comentario in comentarios:
-            id_publicación = crear_publicacion(
-                comentario['company']['name'],
-                comentario['company']['catchPhrase'],
-                comentario['company']['bs']
-            )
-
             crear_comentario(
                 comentario['id'],
                 comentario['name'],
                 comentario['email'],
                 comentario['body'],
-                id_publicación
+                comentario['postId']
             )
 
     elif respuesta.status_code == 204:
