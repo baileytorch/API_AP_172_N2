@@ -1,8 +1,9 @@
+from prettytable import PrettyTable
 import requests
 import json
+from datos import obtener_listado_objetos
 from modelos import Comment, Post
 from datos import insertar_objeto
-from .negocio_publicacion import crear_publicacion
 
 
 def obtener_data_comentarios(url):
@@ -24,6 +25,20 @@ def obtener_data_comentarios(url):
     else:
         print(
             f"La solicitud falló con el siguiente código de error: {respuesta.status_code}")
+
+def listado_comentarios():
+    tabla_comentarios = PrettyTable()
+    tabla_comentarios.field_names = [
+        'N°', 'Nombre', 'Email','Comentario','Id Publicación']
+    listado_comentarios = obtener_listado_objetos(Comment)
+
+    if listado_comentarios:
+        for comentario in listado_comentarios:
+            tabla_comentarios.add_row(
+                [comentario.id, comentario.name, comentario.email,comentario.body,comentario.postId])
+        # tabla_comentarios._min_width = {"N°": 5, "Título": 50,"Contenido":100}
+        # tabla_comentarios._max_width = {"N°": 5, "Título": 50,"Contenido":100}
+        print(tabla_comentarios)
 
 
 def crear_comentario(numero, nombre, correo, contenido, id_post):

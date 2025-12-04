@@ -56,3 +56,11 @@ class Comment(Base):
     email = Column(String(255), nullable=False)
     body = Column(String(255), nullable=False)
     postId = Column(Integer, ForeignKey('posts.id'))
+    
+class Usuario(Base):
+    __tablename__ = 'usuarios'
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(50), nullable=False)
+    correo = Column(String(255), nullable=False)
+    contrasena_hash = Column(String(255), nullable=False)
+    contrasena_salt = Column(String(255), nullable=False)
