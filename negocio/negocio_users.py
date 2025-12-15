@@ -133,7 +133,7 @@ def crear_user_api():
 
 def modificar_user_api():
     url = config('url_users')
-    listado_users_api(url)
+    listado_users_api()
 
     while True:
         id_usuario = input('Ingrese User ID:')
