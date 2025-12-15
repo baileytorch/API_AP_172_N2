@@ -63,4 +63,3 @@ class Usuario(Base):
     nombre = Column(String(50), nullable=False)
     correo = Column(String(255), nullable=False)
     contrasena_hash = Column(String(255), nullable=False)
-    contrasena_salt = Column(String(255), nullable=False)

@@ -51,11 +51,12 @@ def obtener_data_usuarios(url):
         print(
             f"La solicitud falló con el siguiente código de error: {respuesta.status_code}")
 
+
 def listado_users_api(url):
     tabla_usuarios = PrettyTable()
     tabla_usuarios.field_names = [
         'N°', 'Nombre', 'Usuario', 'Correo', 'Teléfono', 'Sitio Web']
-    
+
     respuesta = requests.get(url)
     if respuesta.status_code == 200:
         print("Solicitud correcta, procesando data...")
@@ -69,10 +70,11 @@ def listado_users_api(url):
                 user['phone'],
                 user['website']])
         print(tabla_usuarios)
-    elif respuesta.status_code==400:
+    elif respuesta.status_code == 400:
         print('No se puede acceder al servidor.')
     else:
         print('No se han encontrado datos...')
+
 
 def listado_users_db():
     tabla_usuarios = PrettyTable()
@@ -134,7 +136,7 @@ def modificar_user_api():
         try:
             id_usuario = int(id_usuario)
             url = f'{url}/{id_usuario}'
-            
+
             nombre = input('Ingrese Nombre: ')
             nombre_usuario = input('Nombre Usuario:')
             correo = input('Correo electrónico: ')

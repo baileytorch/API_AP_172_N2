@@ -1,1 +1,1 @@
-from .modelos import Address, Comment, Company, Geo, Post, User
+from .modelos import Address, Comment, Company, Geo, Post, User, Usuario

@@ -1,5 +1,6 @@
 from datos.conexion import sesion
 from sqlalchemy import func
+from modelos import Usuario
 
 
 def obtener_listado_objetos(objeto):
@@ -8,7 +9,7 @@ def obtener_listado_objetos(objeto):
         return listado_objetos
 
 
-def obtener_objeto_campo(objeto, campo, valor):
-    objeto_identificado = sesion.query(objeto).filter_by(campo=valor).first()
-    if objeto_identificado.isinstance(objeto):
+def obtener_usuario_nombre(valor):
+    objeto_identificado = sesion.query(Usuario).filter_by(nombre = valor).first()
+    if objeto_identificado:
         return objeto_identificado
