@@ -5,6 +5,7 @@ def app():
     print('Aplicación API')
     print('==============')
     while True:
+        print()
         menu_principal()
         opcion_menu = input('Seleccione su Opción [0-2]: ')
         if opcion_menu == '1':
@@ -14,6 +15,7 @@ def app():
             if acceso == True:
                 print('Ingresando...')
                 while True:
+                    print()
                     sub_menu()
                     opcion_submenu = input('Seleccione su Opción [0-4]: ')
                     if opcion_submenu == '1':

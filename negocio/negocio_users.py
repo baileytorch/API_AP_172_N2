@@ -112,6 +112,9 @@ def crear_user_db(nombre, nombre_usuario, correo, telefono, sitio_web, id_direcc
 def crear_user_api():
     url = config('url_users')
 
+    print()
+    print('Crear Usuario API.')
+    print('========================')
     nombre = input('Ingrese Nombre: ')
     nombre_usuario = input('Nombre Usuario:')
     correo = input('Correo electrónico: ')
@@ -127,13 +130,17 @@ def crear_user_api():
     }
 
     respuesta = requests.post(str(url), data=user)
-
-    print(respuesta.text)
+    if respuesta.status_code == 200:
+        print('Solicitud ejecutada correctamente.')
+        print(respuesta.text)
 
 
 def modificar_user_api():
     url = config('url_users')
     listado_users_api()
+    print()
+    print('Modificar Usuario API.')
+    print('========================')
 
     while True:
         id_usuario = input('Ingrese User ID:')
@@ -156,15 +163,20 @@ def modificar_user_api():
             }
 
             respuesta = requests.put(str(url), data=user)
-
-            print(respuesta.text)
-            break
+            if respuesta.status_code == 200:
+                print('Solicitud ejecutada correctamente.')
+                print(respuesta.text)
+                break
         except:
-            print('Ingrese un número entero.')
+            print('Datos Incorrectos...')
 
 
 def eliminar_user_api():
     url = config('url_users')
+
+    print()
+    print('Eliminar Usuario API.')
+    print('========================')
 
     while True:
         id_usuario = input('Ingrese User ID:')
@@ -173,8 +185,9 @@ def eliminar_user_api():
             url = f'{url}/{id_usuario}'
 
             respuesta = requests.delete(str(url))
-
-            print(respuesta.text)
-            break
+            if respuesta.status_code == 200:
+                print('Solicitud ejecutada correctamente.')
+                print(respuesta.text)
+                break
         except:
             print('Ingrese un número entero.')
