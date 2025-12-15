@@ -86,6 +86,8 @@ def listado_users_db():
         for usuario in listado_usuarios:
             tabla_usuarios.add_row(
                 [usuario.id, usuario.name, usuario.username, usuario.email, usuario.phone, usuario.website])
+        print('Usuarios API')
+        print('============')
         print(tabla_usuarios)
 
 
@@ -130,6 +132,7 @@ def crear_user_api():
 
 def modificar_user_api():
     url = config('url_users')
+    listado_users_api(url)
 
     while True:
         id_usuario = input('Ingrese User ID:')
