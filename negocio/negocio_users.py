@@ -52,12 +52,13 @@ def obtener_data_usuarios(url):
             f"La solicitud falló con el siguiente código de error: {respuesta.status_code}")
 
 
-def listado_users_api(url):
+def listado_users_api():
+    url = config('url_users')
     tabla_usuarios = PrettyTable()
     tabla_usuarios.field_names = [
         'N°', 'Nombre', 'Usuario', 'Correo', 'Teléfono', 'Sitio Web']
 
-    respuesta = requests.get(url)
+    respuesta = requests.get(str(url))
     if respuesta.status_code == 200:
         print("Solicitud correcta, procesando data...")
         usuarios = respuesta.json()
