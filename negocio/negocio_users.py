@@ -8,6 +8,7 @@ from .negocio_geos import crear_geolocalizacion
 from .negocio_addresses import crear_direccion
 from .negocio_compania import crear_compania
 from decouple import config
+from requests.exceptions import HTTPError, ConnectionError, Timeout, RequestException
 
 
 def obtener_data_usuarios(url):
@@ -45,36 +46,11 @@ def obtener_data_usuarios(url):
                 id_compania
             )
 
-    elif respuesta.status_code == 204:
+    elif respuesta.status_code == 200:
         print("Consulta ejecutada correctamente, pero NO se han encontrado datos.")
     else:
         print(
             f"La solicitud falló con el siguiente código de error: {respuesta.status_code}")
-
-
-def listado_users_api():
-    url = config('url_users')
-    tabla_usuarios = PrettyTable()
-    tabla_usuarios.field_names = [
-        'N°', 'Nombre', 'Usuario', 'Correo', 'Teléfono', 'Sitio Web']
-
-    respuesta = requests.get(str(url))
-    if respuesta.status_code == 200:
-        print("Solicitud correcta, procesando data...")
-        usuarios = respuesta.json()
-        for user in usuarios:
-            tabla_usuarios.add_row(
-                [user['id'],
-                user['name'],
-                user['username'],
-                user['email'],
-                user['phone'],
-                user['website']])
-        print(tabla_usuarios)
-    elif respuesta.status_code == 400:
-        print('No se puede acceder al servidor.')
-    else:
-        print('No se han encontrado datos...')
 
 
 def listado_users_db():
@@ -109,6 +85,37 @@ def crear_user_db(nombre, nombre_usuario, correo, telefono, sitio_web, id_direcc
         print(f'Error al guardar al usuario: {error}')
 
 
+def listado_users_api():
+    url = config('url_users')
+    tabla_usuarios = PrettyTable()
+    tabla_usuarios.field_names = [
+        'N°', 'Nombre', 'Usuario', 'Correo', 'Teléfono', 'Sitio Web']
+
+    try:
+        respuesta = requests.get(str(url), timeout=5)
+        respuesta.raise_for_status()
+    except HTTPError as error_http:
+        print(f"Error HTTP: {error_http}")
+    except ConnectionError as error_conexion:
+        print(f"Error de Conexión: {error_conexion}")
+    except Timeout as error_timeout:
+        print(f"Error de Tiempo de Espera: {error_timeout}")
+    except RequestException as error:
+        print(f"Ha ocurrido un error inesperado: {error}")
+    else:
+        print("Solicitud correcta, procesando data...")
+        usuarios = respuesta.json()
+        for user in usuarios:
+            tabla_usuarios.add_row([
+                user['id'],
+                user['name'],
+                user['username'],
+                user['email'],
+                user['phone'],
+                user['website']])
+        print(tabla_usuarios)
+
+
 def crear_user_api():
     url = config('url_users')
 
@@ -129,8 +136,18 @@ def crear_user_api():
         'website': sitio_web
     }
 
-    respuesta = requests.post(str(url), data=user)
-    if respuesta.status_code == 200:
+    try:
+        respuesta = requests.post(str(url), data=user, timeout=5)
+        respuesta.raise_for_status()
+    except HTTPError as error_http:
+        print(f"Error HTTP: {error_http}")
+    except ConnectionError as error_conexion:
+        print(f"Error de Conexión: {error_conexion}")
+    except Timeout as error_timeout:
+        print(f"Error de Tiempo de Espera: {error_timeout}")
+    except RequestException as error:
+        print(f"Ha ocurrido un error inesperado: {error}")
+    else:
         print('Solicitud ejecutada correctamente.')
         print(respuesta.text)
 
@@ -162,8 +179,18 @@ def modificar_user_api():
                 'website': sitio_web
             }
 
-            respuesta = requests.put(str(url), data=user)
-            if respuesta.status_code == 200:
+            try:
+                respuesta = requests.put(str(url), data=user, timeout=5)
+                respuesta.raise_for_status()
+            except HTTPError as error_http:
+                print(f"Error HTTP: {error_http}")
+            except ConnectionError as error_conexion:
+                print(f"Error de Conexión: {error_conexion}")
+            except Timeout as error_timeout:
+                print(f"Error de Tiempo de Espera: {error_timeout}")
+            except RequestException as error:
+                print(f"Ha ocurrido un error inesperado: {error}")
+            else:
                 print('Solicitud ejecutada correctamente.')
                 print(respuesta.text)
                 break
@@ -183,9 +210,19 @@ def eliminar_user_api():
         try:
             id_usuario = int(id_usuario)
             url = f'{url}/{id_usuario}'
-
-            respuesta = requests.delete(str(url))
-            if respuesta.status_code == 200:
+            
+            try:
+                respuesta = requests.delete(str(url), timeout=5)
+                respuesta.raise_for_status()
+            except HTTPError as error_http:
+                print(f"Error HTTP: {error_http}")
+            except ConnectionError as error_conexion:
+                print(f"Error de Conexión: {error_conexion}")
+            except Timeout as error_timeout:
+                print(f"Error de Tiempo de Espera: {error_timeout}")
+            except RequestException as error:
+                print(f"Ha ocurrido un error inesperado: {error}")
+            else:
                 print('Solicitud ejecutada correctamente.')
                 print(respuesta.text)
                 break
