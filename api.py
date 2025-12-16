@@ -35,6 +35,6 @@ def app():
             print('Saliendo...')
             break
         else:
-            print('Opción Incorrecta, Intente Nuevamente...')
+            print('Opción Incorrecta, Intente Nuevamente....')
             
 app()
